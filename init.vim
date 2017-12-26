@@ -91,6 +91,12 @@ Plug 'mattn/emmet-vim'
 Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
 Plug 'SirVer/ultisnips'
+Plug 'rhysd/committia.vim'
+Plug 'bounceme/poppy.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'tjvr/vim-nearley'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'michaeljsmith/vim-indent-object'
 
 
 "*****************************************************************************
@@ -144,8 +150,24 @@ set ignorecase
 set smartcase
 
 "" Directories for swp files
-set nobackup
-set noswapfile
+
+" Save temporary/backup files not in the local directory, but in your ~/.vim
+" directory, to keep them out of git repos. 
+" But first mkdir backup, swap, and undo first to make this work
+call system('mkdir ~/.vim')
+call system('mkdir ~/.vim/backup')
+call system('mkdir ~/.vim/swap')
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+    call system('mkdir ~/.vim/undo')
+    set undodir=~/.vim/undo//
+    set undofile
+    set undolevels=1000
+    set undoreload=10000
+endif
 
 set fileformats=unix,dos,mac
 set showcmd
@@ -318,10 +340,6 @@ set autoread
 "" Mappings
 "*****************************************************************************
 
-"" Split
-noremap <Leader>h :<C-u>split<CR>
-noremap <Leader>v :<C-u>vsplit<CR>
-
 "" Git
 noremap <Leader>ga :Gwrite<CR>
 noremap <Leader>gc :Gcommit<CR>
@@ -339,9 +357,8 @@ nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
 "" Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap <silent> <S-t> :tabnew<CR>
+nnoremap <Tab> :bn!<CR>
+nnoremap <S-Tab> :bp!<CR>
 
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
@@ -428,8 +445,8 @@ vmap < <gv
 vmap > >gv
 
 "" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+vnoremap <leader>j :m '>+1<CR>gv=gv
+vnoremap <leader>k :m '<-2<CR>gv=gv
 
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
@@ -506,16 +523,23 @@ nmap <silent><leader>c :bd!<CR>
 nmap <silent><leader>a :ls<CR>
 nmap <leader>F :Neoformat <CR>
 nmap <leader>! <c-y>,
+nmap <leader>g :Gcommit -v %<CR>
 
 let g:jsx_ext_required = 0
 let g:ale_javascript_eslint_executable = '/home/mgarcia/werk/redhat/SMA/web/node_modules/.bin/eslint'
 let g:ale_javascript_eslint_options = '--config /home/mgarcia/werk/redhat/SMA/web/.eslintrc'
+"let g:ale_open_list = 1
 
 set shortmess+=c
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <silent><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+nmap X "_d
+nmap XX "_dd
+vmap X "_d
+vmap x "_d
 
 set colorcolumn=120
 colorscheme onedark
@@ -524,3 +548,5 @@ colorscheme onedark
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+set mouse=a
+au! cursormoved * call PoppyInit()
