@@ -1,0 +1,8 @@
+print(chr(int("01010100", 2)))
+print(chr(int("11001011", 2)))
+print(chr(int("10110001", 2)))
+print(chr(int("00101110", 2)))
+print(chr(int("11100010", 2)))
+print(chr(int("01010101", 2)))
+print(chr(int("10011011", 2)))
+print(chr(int("01100100", 2)))

@@ -68,11 +68,11 @@ return {
 
 		mason_lspconfig.setup_handlers({
 			-- default handler for installed servers
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
+			--function(server_name)
+			--	lspconfig[server_name].setup({
+			--		capabilities = capabilities,
+			--	})
+			--end,
 			["lua_ls"] = function()
 				-- configure lua server (with special settings)
 				lspconfig["lua_ls"].setup({

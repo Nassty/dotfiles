@@ -9,7 +9,6 @@ return {
 		"nvim-lua/plenary.nvim",
 		"kelly-lin/telescope-ag",
 		"nvim-tree/nvim-web-devicons",
-		"jonarrien/telescope-cmdline.nvim",
 	},
 	config = function()
 		local telescope = require("telescope")
@@ -66,7 +65,6 @@ return {
 				-- please take a look at the readme of the extension you want to configure
 			},
 		})
-		telescope.load_extension("cmdline")
 
 		-- Find files and live grep
 		keymap(
@@ -75,7 +73,5 @@ return {
 			"<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>",
 			"Fuzzy file finder"
 		)
-		keymap("n", "<C-t>", "<cmd>lua require'telescope.builtin'.live_grep()<cr>", "Live grep")
-		keymap("n", ":", "<cmd>Telescope cmdline<cr>", "Cmdline")
 	end,
 }
